@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "yarn build",
     "lint": "tslint -p ./",
-    "prepublishOnly": "yarn test && yarn lint",
+    "prepublishOnly": "yarn lint",
     "preversion": "yarn lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
@@ -48,7 +48,8 @@
   "author": "Redstone Team <dev@redstone.finance>",
   "contributors": [
     "Jakub Wojciechowski <jakub@redstone.finance>",
-    "Alex Suvorov <alex@redstone.finance>"
+    "Alex Suvorov <alex@redstone.finance>",
+    "Peter Pedziwiatr <peter@redstone.finance>"
   ],
   "license": "MIT",
   "bugs": {
