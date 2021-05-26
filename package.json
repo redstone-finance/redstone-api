@@ -1,0 +1,87 @@
+{
+  "name": "redstone-api",
+  "version": "0.4.0",
+  "description": "Javascript library for fetching trusted token pricing data from Redstone data ecosystem",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config jestconfig.json",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "yarn build",
+    "lint": "tslint -p ./",
+    "prepublishOnly": "yarn test && yarn lint",
+    "preversion": "yarn lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags",
+    "generate-docs": "typedoc ./src/** --out .exp/docs-typedoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redstone-finance/redstone-api.git"
+  },
+  "keywords": [
+    "price",
+    "tokens",
+    "arweave",
+    "api",
+    "oracle",
+    "market",
+    "crypto",
+    "data",
+    "finance",
+    "defi",
+    "pricing",
+    "usd",
+    "AR",
+    "BTC",
+    "USDT",
+    "ETH",
+    "WETH",
+    "WBTC",
+    "coin",
+    "Bitcoin",
+    "Ethereum",
+    "currency",
+    "cryptocurrency"
+  ],
+  "author": "Redstone Team <dev@redstone.finance>",
+  "contributors": [
+    "Jakub Wojciechowski <jakub@redstone.finance>",
+    "Alex Suvorov <alex@redstone.finance>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/redstone-finance/redstone-api/issues"
+  },
+  "homepage": "https://github.com/redstone-finance/redstone-api#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.33",
+    "@types/pako": "^1.0.1",
+    "console-stamp": "^3.0.2",
+    "discord.js": "^12.5.1",
+    "documentation": "^13.2.5",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.3",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.20.36",
+    "typedoc-plugin-markdown": "^3.7.2",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "ar-gql": "^0.0.6",
+    "arweave": "^1.10.14",
+    "axios": "^0.21.1",
+    "deep-sort-object": "^1.0.2",
+    "lodash": "^4.17.21",
+    "pako": "^2.0.3"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}
