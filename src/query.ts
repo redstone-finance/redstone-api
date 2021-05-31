@@ -2,7 +2,7 @@ import _ from "lodash";
 import {
   ConvertableToDate,
   GetPriceOptions,
-  RedstoneApiConfig,
+  RedstoneApiConfigForQueryExec,
   PriceData,
 } from "./types";
 import RedstoneApi from "./api";
@@ -190,9 +190,12 @@ export class RedstoneQueryExecutable<QueryResultType> {
    * @returns Promise resolving the query result (result type depends on the query)
    */
   async exec(
-    redstoneApiConfig?: RedstoneApiConfig,
+    redstoneApiConfig?: RedstoneApiConfigForQueryExec,
   ): Promise<QueryResultType> {
-    const redstone = new RedstoneApi(redstoneApiConfig);
+    const redstone = new RedstoneApi({
+      ...redstoneApiConfig,
+      defaultProvider: redstoneApiConfig?.provider,
+    });
     const symbols = this.params.symbols;
     if (symbols.length > 0) {
       const symbolOrSymbols = symbols.length === 1 ? symbols[0] : symbols;

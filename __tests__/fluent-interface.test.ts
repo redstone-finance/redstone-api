@@ -18,6 +18,18 @@ describe("Fluent interface tests ", () => {
     expect(Date.now() - price.timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
 
+  test("Should get AAPL price with redstone-stocks provider", async () => {
+    const price = await redstone.query()
+      .symbol("AAPL")
+      .latest()
+      .exec({ provider: "redstone-stocks" });
+
+    expect(price).toBeDefined();
+    expect(price.symbol).toBe("AAPL");
+    expect(price.value).toBeGreaterThan(50);
+    expect(Date.now() - price.timestamp).toBeLessThan(MAX_TIME_DIFF);
+  });
+
   test("Should get a single historical AR price", async () => {
     const price = await redstone.query()
       .symbol("AR")

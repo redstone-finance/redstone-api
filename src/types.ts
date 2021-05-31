@@ -8,6 +8,10 @@ export interface RedstoneApiConfig {
   cacheApiUrl?: string;
 }
 
+export interface RedstoneApiConfigForQueryExec extends RedstoneApiConfig {
+  provider?: string;
+}
+
 export interface PriceData {
   id?: string;
   symbol: string;
