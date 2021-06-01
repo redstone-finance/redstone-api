@@ -14,7 +14,7 @@ import {
   GetHistoricalPriceForSingleTokenOptions,
 } from "./types";
 
-const LIMESTON_API_DEFAULTS = {
+const REDSTONE_API_DEFAULTS = {
   defaultProvider: "redstone",
   useCache: true,
   verifySignature: false,
@@ -38,15 +38,15 @@ export default class RedstoneApi {
     this.version = _.defaultTo(redstoneConfig.version, config.version);
     this.verifySignature = _.defaultTo(
       redstoneConfig.verifySignature,
-      LIMESTON_API_DEFAULTS.verifySignature,
+      REDSTONE_API_DEFAULTS.verifySignature,
     );
     this.defaultProvider = _.defaultTo(
       redstoneConfig.defaultProvider,
-      LIMESTON_API_DEFAULTS.defaultProvider,
+      REDSTONE_API_DEFAULTS.defaultProvider,
     );
     this.useCache = _.defaultTo(
       redstoneConfig.useCache,
-      LIMESTON_API_DEFAULTS.useCache,
+      REDSTONE_API_DEFAULTS.useCache,
     );
   }
 
