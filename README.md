@@ -4,7 +4,9 @@
 [![Github activity](https://img.shields.io/github/commit-activity/m/redstone-finance/redstone-api)](https://github.com/redstone-finance/redstone-api)
 [![Discord](https://img.shields.io/discord/786251205008949258?logo=discord)](https://discord.gg/2CT6hN6C)
 [![NPM](https://img.shields.io/npm/v/redstone-api)](https://www.npmjs.com/package/redstone-api)
-[![Twitter](https://img.shields.io/twitter/follow/redstone_defi?style=flat&logo=twitter)](https://twitter.com/intent/follow?screen_name=redstone_defi)
+
+<!-- TODO: uncomment when redstone twitter account will be ready -->
+<!-- [![Twitter](https://img.shields.io/twitter/follow/limestone_defi?style=flat&logo=twitter)](https://twitter.com/intent/follow?screen_name=limestone_defi) -->
 
 Redstone API is a Javascript library for fetching trusted token pricing data from [Redstone data ecosystem](https://github.com/redstone-finance/redstone/blob/master/README.md).
 
@@ -264,6 +266,7 @@ redstone.query().symbol("AR").latest().exec({
   cacheApiUrl: "http://localhost:9000/prices",
 }).then(console.log);
 ```
+![redstone code example](docs/redstone-query-example.gif)
 
 ----------------------------------------------
 
