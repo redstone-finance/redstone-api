@@ -8,14 +8,14 @@
 <!-- TODO: uncomment when redstone twitter account will be ready -->
 <!-- [![Twitter](https://img.shields.io/twitter/follow/limestone_defi?style=flat&logo=twitter)](https://twitter.com/intent/follow?screen_name=limestone_defi) -->
 
-Redstone API is a Javascript library for fetching trusted token pricing data from [Redstone data ecosystem](https://github.com/redstone-finance/redstone/blob/master/README.md).
+Redstone API is a Javascript library for fetching trusted token pricing data from [Redstone data ecosystem](docs/REDSTONE_DATA_ECOSYSTEM.md).
 
 It is a Javascript wrapper for [Redstone HTTP Api](docs/HTTP_API.md).
 
 ## ✅ Why Redstone API
 ### ✓ Secure
 Redstone pricing data is secured on Arweave and protected by the provider's collateral.
-[Learn more](https://github.com/redstone-finance/redstone/blob/master/README.md)
+[Learn more](docs/REDSTONE_DATA_ECOSYSTEM.md)
 
 ### ✓ Easy to use
 You don't need any API keys. Just install the npm package and add a single line of code.
@@ -27,10 +27,10 @@ We support BTC, ETH, AR, EUR, and many other crypto and fiat currencies.
 
 ### ✓ TypeScript Support
 Redstone API is fully written in Typescript and then compiled to JavaScript.
-[Source code](https://github.com/redstone-finance/redstone-api)
+[Source code](https://github.com/redstone-finance/redstone-api/)
 
 ## 📖 Documentation
-This readme should provide you with all the information you need to start using redstone api. If you want to see the full documentation, visit [docs.redstone.finance](https://docs.redstone.finance)
+This readme should provide you with all the information you need to start using redstone api. If you want to see the full documentation, visit [api.docs.redstone.finance](https://api.docs.redstone.finance)
 
 ## 📦 Installation
 
@@ -225,8 +225,8 @@ To fetch prices with pagination specify token symbol as the first argument of th
 
 ```js
 const prices = await redstone.getHistoricalPrices("AR", {
-	offset: 1000,
-	limit: 100,
+  offset: 1000,
+  limit: 100,
 });
 ```
 
@@ -245,6 +245,13 @@ console.log(price.value);
 
 ----------------------------------------------
 
+### Fluent Interface
+Redstone implements a fluent interface to simplify query creation thanks to a human readable syntax. [Learn more](docs/FLUENT_INTERFACE.md)
+
+![redstone fluent interface example](docs/redstone-query-example.gif)
+
+----------------------------------------------
+
 ### Using a custom cache api url
 #### Option 1. Using a setCacheApiUrl method
 ```js
@@ -254,7 +261,7 @@ redstone.getPrice("AR").then(console.log);
 
 #### Option 2. Initialising a new redstone api instance with a cacheApiUrl param
 ```js
-const redstoneApi = new redstone.RedstoneApi({
+const redstoneApi = new redstone.Api({
   cacheApiUrl: "http://localhost:9000/prices",
 });
 redstoneApi.getPrice("AR").then(console.log);
@@ -266,33 +273,25 @@ redstone.query().symbol("AR").latest().exec({
   cacheApiUrl: "http://localhost:9000/prices",
 }).then(console.log);
 ```
-![redstone code example](docs/redstone-query-example.gif)
 
 ----------------------------------------------
 
 ### Get prices from Arweave
 By default, Redstone API fetches data from the Redstone cache layer. It works way faster than fetching directly from Arweave Blockchain. Even so, thanks to signature verification prices data is still trusted and secure.
 
-We strongly recommend using the default fetching mechanism which leverages cache to speed up queries. But if you want to fetch data directly from Arweave you can do it by initialising a new `RedstoneApi` client and setting `useCache` option to `false`.
+We strongly recommend using the default fetching mechanism which leverages cache to speed up queries. But if you want to fetch data directly from Arweave you can do it by initialising a new `Api` client and setting `useCache` option to `false`.
 
 ```js
-const redstoneArweaveClient = new redstone.RedstoneApi({
-  useCache: false,
-});
+const redstoneArweaveClient = new redstone.Api({ useCache: false });
 
 const price = await redstoneArweaveClient.getPrice("AR");
 
 console.log(price.value); // AR price value fetched directly from Arweave
 ```
 
-----------------------------------------------
-
-### Fluent Interface
-Redstone implements a fluent interface to simplify query creation thanks to a human readable syntax. [Learn more](docs/FLUENT_INTERFACE.md)
-
 ## 🚀 Examples
-- [Discord bot](examples/discord-bot)
-- [Web app](https://github.com/redstone-finance/redstone)
+- [Discord bots](examples/discord-bots/)
+- [Web app](https://github.com/redstone-finance/redstone-app)
 
 ## 💬 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
