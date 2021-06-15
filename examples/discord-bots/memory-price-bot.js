@@ -3,7 +3,7 @@ const redstone = require("../../lib/index.js");
 const { runSimpleDiscordBot } = require("./simple-discord-bot");
 
 async function getCurrentARPricePerGB() {
-  const response = await axios.get("https://arweave.dev/price/1073741824");
+  const response = await axios.get("https://arweave.net/price/1073741824");
   return response.data * 0.000000000001;
 }
 
