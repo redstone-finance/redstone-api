@@ -5,8 +5,7 @@
 [![Discord](https://img.shields.io/discord/786251205008949258?logo=discord)](https://discord.gg/2CT6hN6C)
 [![NPM](https://img.shields.io/npm/v/redstone-api)](https://www.npmjs.com/package/redstone-api)
 
-<!-- TODO: uncomment when redstone twitter account will be ready -->
-<!-- [![Twitter](https://img.shields.io/twitter/follow/limestone_defi?style=flat&logo=twitter)](https://twitter.com/intent/follow?screen_name=limestone_defi) -->
+[![Twitter](https://img.shields.io/twitter/follow/redstone_defi?style=flat&logo=twitter)](https://twitter.com/intent/follow?screen_name=limestone_defi)
 
 Redstone API is a Javascript library for fetching trusted token pricing data from [Redstone data ecosystem](docs/REDSTONE_DATA_ECOSYSTEM.md).
 
