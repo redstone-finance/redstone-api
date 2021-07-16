@@ -12,6 +12,9 @@ Redstone API is a Javascript library for fetching trusted token pricing data fro
 
 It is a Javascript wrapper for [Redstone HTTP Api](docs/HTTP_API.md).
 
+## 🚀 Demo
+Try it directly in CodeSandbox: [demo link](https://codesandbox.io/s/redstone-api-demo-0h4oo?from-embed=&file=/src/index.ts)
+
 ## ✅ Why Redstone API
 ### ✓ Secure
 Redstone pricing data is secured on Arweave and protected by the provider's collateral.
