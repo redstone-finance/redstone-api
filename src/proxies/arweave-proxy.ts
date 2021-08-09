@@ -1,8 +1,8 @@
+import ArweaveMultihost from "arweave-multihost";
 import Arweave from "arweave";
 import { run } from "ar-gql";
 import pako from "pako";
-
-import providers from "./providers.json";
+import providers from "redstone-node/src/config/providers.json";
 
 interface GraphQLParams {
   type: string;
@@ -36,13 +36,13 @@ interface ProviderDetails {
 const LAST_BLOCKS_TO_CHECK = 5000;
 
 export default class ArweaveProxy {
-  arweaveClient: Arweave;
+  arweaveClient: any;
 
   constructor() {
-    this.arweaveClient = Arweave.init({
-      host: "arweave.net",
-      port: 443,
-      protocol: "https",
+    this.arweaveClient = ArweaveMultihost.initWithDefaultHosts({
+      timeout: 10000,         // Network request timeouts in milliseconds
+      logging: false,         // Enable network request logging
+      onError: console.error, // On request error callback
     });
   }
 

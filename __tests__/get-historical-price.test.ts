@@ -12,7 +12,7 @@ describe("Test getHistoricalPrice method", () => {
     const symbol = "AR";
     const date = new Date("2021-04-17");
     const price: any =
-      await redstone.getHistoricalPrice(symbol, { date });
+      await redstone.getHistoricalPrice(symbol, { date, provider: "redstone" });
 
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
@@ -24,7 +24,7 @@ describe("Test getHistoricalPrice method", () => {
     const symbol = "ETH";
     const date = new Date("2021-04-17");
     const price: any =
-      await redstone.getHistoricalPrice(symbol, { date });
+      await redstone.getHistoricalPrice(symbol, { date, provider: "redstone" });
 
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
@@ -41,6 +41,7 @@ describe("Test getHistoricalPrice method", () => {
     await redstone.getHistoricalPrice(symbol, {
       date,
       verifySignature: true,
+      provider: "redstone",
     });
   });
 
@@ -49,6 +50,7 @@ describe("Test getHistoricalPrice method", () => {
     const prices: any =
       await redstone.getHistoricalPrice(symbols, {
         date: "2021-04-17",
+        provider: "redstone",
       });
 
     for (const symbol of symbols) {
@@ -65,9 +67,10 @@ describe("Test getHistoricalPrice method", () => {
     const symbol = "AR";
 
     const prices: any = await redstone.getHistoricalPrice(symbol, {
-      startDate: "2021-04-17",
-      endDate: "2021-04-18",
+      startDate: "2021-06-17",
+      endDate: "2021-06-18",
       interval: 600000,
+      provider: "redstone",
     });
 
     expect(prices).toBeDefined();
@@ -82,7 +85,7 @@ describe("Test getHistoricalPrice method", () => {
     const symbol = "AR";
 
 
-    const endDate = new Date("2021-04-20T23:59:00+00:00").getTime();
+    const endDate = new Date("2021-06-20T23:59:00+00:00").getTime();
     const startDate = endDate - 2 * 24 * 3600 * 1000; // 2 days before
 
     const prices: any = await redstone.getHistoricalPrice(symbol, {
@@ -90,6 +93,7 @@ describe("Test getHistoricalPrice method", () => {
       endDate,
       interval: 3600 * 1000, // 1 hour
       verifySignature: true,
+      provider: "redstone",
     });
 
     expect(prices).toBeDefined();
@@ -103,6 +107,7 @@ describe("Test getHistoricalPrice method", () => {
     const prices: any = await redstone.getHistoricalPrice(symbol, {
       offset: 1000,
       limit: 100,
+      provider: "redstone",
     });
 
     expect(prices).toHaveLength(100);
@@ -117,10 +122,12 @@ describe("Test getHistoricalPrice method", () => {
   });
 
   test("Should not found AR price for 2019-01-01", async () => {
-    await redstone.getHistoricalPrice("AR", { date: "2019-01-01" })
-      .catch(e => {
-        const msg = e.toString();
-        expect(msg.includes("Price not found for symbol: AR")).toBe(true);
-      });
+    await redstone.getHistoricalPrice("AR", {
+      date: "2019-01-01",
+      provider: "redstone"
+    }).catch(e => {
+      const msg = e.toString();
+      expect(msg.includes("Price not found for symbol: AR")).toBe(true);
+    });
   });
 });

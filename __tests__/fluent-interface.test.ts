@@ -33,14 +33,14 @@ describe("Fluent interface tests ", () => {
   test("Should get a single historical AR price", async () => {
     const price = await redstone.query()
       .symbol("AR")
-      .atDate("2021-04-19")
-      .exec();
+      .atDate("2021-06-19")
+      .exec({ provider: "redstone" });
 
-    const timeDiff = new Date("2021-04-19").getTime() - price.timestamp;
+    const timeDiff = new Date("2021-06-19").getTime() - price.timestamp;
 
     expect(price.symbol).toBe("AR");
     expect(timeDiff).toBeLessThan(MAX_TIME_DIFF);
-    expect(price.value).toBeCloseTo(24.164724409233393, 15);
+    expect(price.value).toBeCloseTo(15.653773173625972, 15);
   });
 
   test("Should get historical AR price for the last 12 hours", async () => {
@@ -101,16 +101,16 @@ describe("Fluent interface tests ", () => {
   test("Should get AR price in time range", async () => {
     const prices = await redstone.query()
       .symbol("AR")
-      .fromDate("2021-04-19")
-      .toDate("2021-04-20")
-      .exec();
+      .fromDate("2021-06-19")
+      .toDate("2021-06-20")
+      .exec({ provider: "redstone" });
 
     expect(prices.length).toBe(24);
     for (const price of prices) {
       expect(price.timestamp).toBeLessThanOrEqual(
-        new Date("2021-04-20").getTime());
+        new Date("2021-06-20").getTime());
       expect(price.timestamp).toBeGreaterThanOrEqual(
-        new Date("2021-04-19").getTime());
+        new Date("2021-06-19").getTime());
     }
   });
 
@@ -135,14 +135,14 @@ describe("Fluent interface tests ", () => {
   test("Should get the historical price for AR, ETH and BTC", async () => {
     const prices = await redstone.query()
       .symbols(["AR", "ETH", "BTC"])
-      .atDate("2021-04-19")
-      .exec();
+      .atDate("2021-06-19")
+      .exec({ provider: "redstone" });
 
-    const timestamp = new Date("2021-04-19").getTime();
+    const timestamp = new Date("2021-06-19").getTime();
 
-    expect(prices["AR"].value).toBeCloseTo(24.164724409233393, 15);
-    expect(prices["ETH"].value).toBeCloseTo(2237.882213712263, 12);
-    expect(prices["BTC"].value).toBeCloseTo(56206.13804443239, 11);
+    expect(prices["AR"].value).toBeCloseTo(15.653773173625972, 15);
+    expect(prices["ETH"].value).toBeCloseTo(2230.201106028155, 12);
+    expect(prices["BTC"].value).toBeCloseTo(35774.50061802952, 11);
     expect(timestamp - prices["AR"].timestamp).toBeLessThan(MAX_TIME_DIFF);
     expect(timestamp - prices["ETH"].timestamp).toBeLessThan(MAX_TIME_DIFF);
     expect(timestamp - prices["BTC"].timestamp).toBeLessThan(MAX_TIME_DIFF);

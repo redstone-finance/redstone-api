@@ -55,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/redstone-finance/redstone-api/issues"
   },
-  "homepage": "https://github.com/redstone-finance/redstone-api#readme",
+  "homepage": "https://api.docs.redstone.finance/",
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
@@ -76,11 +76,13 @@
   },
   "dependencies": {
     "ar-gql": "^0.0.6",
-    "arweave": "^1.10.14",
+    "arweave": "^1.10.16",
+    "arweave-multihost": "^0.1.0",
     "axios": "^0.21.1",
     "deep-sort-object": "^1.0.2",
     "lodash": "^4.17.21",
-    "pako": "^2.0.3"
+    "pako": "^2.0.3",
+    "redstone-node": "redstone-finance/redstone-node#ae78874"
   },
   "files": [
     "lib/**/*"

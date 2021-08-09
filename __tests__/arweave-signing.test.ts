@@ -1,10 +1,10 @@
-import Arweave from "arweave";
+import ArweaveMultihost from "arweave-multihost";
 
 describe("Test arweave signing and verification", () => {
-  const arweaveClient: Arweave = Arweave.init({
-    host: "arweave.net",
-    port: 443,
-    protocol: "https",
+  const arweaveClient = ArweaveMultihost.initWithDefaultHosts({
+    timeout: 10000,         // Network request timeouts in milliseconds
+    logging: false,         // Enable network request logging
+    onError: console.error, // On request error callback
   });
 
   test("Should sign and verify signature", async () => {

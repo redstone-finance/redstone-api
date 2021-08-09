@@ -13,12 +13,19 @@ import {
   GetHistoricalPriceOptions,
   GetHistoricalPriceForSingleTokenOptions,
 } from "./types";
+import symbolsConfig from "redstone-node/src/config/token-config.json";
 
 const REDSTONE_API_DEFAULTS = {
   defaultProvider: "redstone",
   useCache: true,
   verifySignature: false,
 };
+
+// Providers list is sorted by priority (redstone-rapid has the highest priority)
+const PROVIDERS_SORTED_BY_PRIORITY = [
+  "redstone-rapid",
+  "redstone-stocks",
+  "redstone"];
 
 export default class RedstoneApi {
   private defaultProvider: string;
@@ -83,7 +90,6 @@ export default class RedstoneApi {
     symbolOrSymbols: any,
     opts: GetPriceOptions = {},
   ): Promise<any> {
-    const provider = _.defaultTo(opts.provider, this.defaultProvider);
     const shouldVerifySignature = _.defaultTo(
       opts.verifySignature,
       this.verifySignature,
@@ -91,15 +97,19 @@ export default class RedstoneApi {
 
     if (_.isArray(symbolOrSymbols)) {
       // Getting latest price for many tokens
+      const symbols = symbolOrSymbols;
+      const provider = this.getProviderForSymbols(symbols, opts.provider);
       return await this.getPriceForManyTokens({
-        symbols: symbolOrSymbols,
+        symbols,
         provider,
         shouldVerifySignature,
       });
     } else if (typeof symbolOrSymbols === "string") {
       // Getting latest price for one token
+      const symbol = symbolOrSymbols;
+      const provider = this.getProviderForSymbol(symbol, opts.provider);
       return await this.getLatestPriceForOneToken({
-        symbol: symbolOrSymbols,
+        symbol,
         provider,
         shouldVerifySignature,
       });
@@ -167,7 +177,6 @@ export default class RedstoneApi {
     opts: GetHistoricalPriceOptions,
   ): Promise<{ [token: string]: PriceData }>;
   async getHistoricalPrice(symbolOrSymbols: any, opts: any): Promise<any> {
-    const provider = _.defaultTo(opts.provider, this.defaultProvider);
     const shouldVerifySignature = _.defaultTo(
       opts.verifySignature,
       this.verifySignature,
@@ -175,16 +184,20 @@ export default class RedstoneApi {
 
     if (_.isArray(symbolOrSymbols)) {
       // Getting historical price for many tokens
+      const symbols = symbolOrSymbols;
+      const provider = this.getProviderForSymbols(symbols, opts.provider);
       return await this.getPriceForManyTokens({
-        symbols: symbolOrSymbols,
+        symbols,
         timestamp: getTimestamp(opts.date),
         provider,
         shouldVerifySignature,
       });
     } else if (typeof symbolOrSymbols === "string") {
+      const symbol = symbolOrSymbols;
+      const provider = this.getProviderForSymbol(symbol, opts.provider);
       if (opts.interval !== undefined || opts.limit !== undefined) {
         return await this.getHistoricalPricesForOneSymbol({
-          symbol: symbolOrSymbols,
+          symbol,
           fromTimestamp: getTimestamp(opts.startDate),
           toTimestamp: getTimestamp(opts.endDate),
           interval: opts.interval,
@@ -195,7 +208,7 @@ export default class RedstoneApi {
         });
       } else {
         return await this.getHistoricalPriceForOneSymbol({
-          symbol: symbolOrSymbols,
+          symbol,
           timestamp: getTimestamp(opts.date) as number,
           provider,
           shouldVerifySignature,
@@ -363,7 +376,7 @@ export default class RedstoneApi {
 
       return convertToUserFacingFormat(price);
     } else {
-      // TODO: we cannot query ArGQL with timestamp camparators like timestamp_gt
+      // TODO: we cannot query ArGQL with timestamp comparators like timestamp_gt
       // But in future we can think of querying based on block numbers
       throw new Error(
         "Fetching historical price from arweave is not supported",
@@ -430,13 +443,51 @@ export default class RedstoneApi {
 
       return prices.map(convertToUserFacingFormat);
     } else {
-      // TODO: we cannot query ArGQL with timestamp camparators like timestamp_gt
+      // TODO: we cannot query ArGQL with timestamp comparators like timestamp_gt
       // But in future we can think of querying based on block numbers
       throw new Error(
         "Fetching historical prices from arweave is not supported",
       );
     }
   }
+
+  private getProviderForSymbol(symbol: string, provider?: string): string {
+    return this.getProviderForSymbols([symbol], provider);
+  }
+
+  private getProviderForSymbols(symbols: string[], provider?: string): string {
+    if (provider !== undefined) {
+      return provider;
+    } else {
+      // Calculating a list of providers which support all symbols in the list
+      let possibleProviders = Array.from(PROVIDERS_SORTED_BY_PRIORITY);
+      for (const symbol of symbols) {
+        const details = (symbolsConfig as any)[symbol];
+        if (details && details.providers && Array.isArray(details.providers)) {
+          for (const provider of possibleProviders) {
+            // If any of symbols doesn't support the provider
+            // it can not be used
+            if (!details.providers.includes(provider)) {
+              possibleProviders = possibleProviders.filter(p => p !== provider);
+            }
+          }
+        } else {
+          // If any symbol has no supported providers in redstone-node config
+          // we break the loop and return the default provider
+          possibleProviders = [];
+          break;
+        }
+      }
+
+      // Returning the best possible provider
+      if (possibleProviders.length > 0) {
+        return possibleProviders[0];
+      } else {
+        return this.defaultProvider;
+      }
+    }
+  }
+
 }
 
 function getTimestamp(date?: ConvertableToDate): number | undefined {
