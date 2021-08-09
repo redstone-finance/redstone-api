@@ -455,9 +455,9 @@ export default class RedstoneApi {
     return this.getProviderForSymbols([symbol], provider);
   }
 
-  private getProviderForSymbols(symbols: string[], provider?: string): string {
-    if (provider !== undefined) {
-      return provider;
+  private getProviderForSymbols(symbols: string[], passedProvider?: string): string {
+    if (passedProvider !== undefined) {
+      return passedProvider;
     } else {
       // Calculating a list of providers which support all symbols in the list
       let possibleProviders = Array.from(PROVIDERS_SORTED_BY_PRIORITY);

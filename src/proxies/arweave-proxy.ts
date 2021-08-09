@@ -40,9 +40,8 @@ export default class ArweaveProxy {
 
   constructor() {
     this.arweaveClient = ArweaveMultihost.initWithDefaultHosts({
-      timeout: 10000,         // Network request timeouts in milliseconds
-      logging: false,         // Enable network request logging
-      onError: console.error, // On request error callback
+      timeout: 10000,                    // Network request timeouts in milliseconds
+      logging: false,                    // Enable network request logging
     });
   }
 
