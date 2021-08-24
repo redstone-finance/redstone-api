@@ -1,6 +1,6 @@
 {
   "name": "redstone-api",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Javascript library for fetching trusted token pricing data from Redstone data ecosystem",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
