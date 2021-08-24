@@ -111,10 +111,6 @@ describe("Test getHistoricalPrice method", () => {
     });
 
     expect(prices).toHaveLength(100);
-    expect(prices[0].timestamp).toBeLessThan(Date.now() - 995 * 60 * 1000);
-    expect(prices[0].timestamp).toBeGreaterThan(Date.now() - 1005 * 60 * 1000);
-    expect(prices[99].timestamp).toBeLessThan(Date.now() - 1095 * 60 * 1000);
-    expect(prices[99].timestamp).toBeGreaterThan(Date.now() - 1105 * 60 * 1000);
 
     for (const price of prices) {
       shouldNotHaveTechProps(price);

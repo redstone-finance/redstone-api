@@ -2,7 +2,7 @@ import ArweaveMultihost from "arweave-multihost";
 import Arweave from "arweave";
 import { run } from "ar-gql";
 import pako from "pako";
-import providers from "redstone-node/src/config/providers.json";
+import providers from "redstone-node/dist/src/config/providers.json";
 
 interface GraphQLParams {
   type: string;

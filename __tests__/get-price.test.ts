@@ -1,5 +1,5 @@
 import redstone from "../src/index";
-import providers from "redstone-node/src/config/providers.json";
+import providers from "redstone-node/dist/src/config/providers.json";
 
 const MAX_TIME_DIFF = 90000; // 90s
 

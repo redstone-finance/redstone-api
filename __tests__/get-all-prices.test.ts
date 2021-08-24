@@ -1,6 +1,6 @@
 import redstone from "../src/index";
 
-const MAX_TIME_DIFF = 90000; // 90s
+const MAX_TIME_DIFF = 120000; // 120s
 const MAX_TIME_DIFF_ARWEAVE = 7200 * 1000; // 2 hours
 
 const shouldNotHaveTechProps = (price: any) => {

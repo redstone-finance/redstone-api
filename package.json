@@ -82,7 +82,7 @@
     "deep-sort-object": "^1.0.2",
     "lodash": "^4.17.21",
     "pako": "^2.0.3",
-    "redstone-node": "redstone-finance/redstone-node#ae78874"
+    "redstone-node": "^0.4.16"
   },
   "files": [
     "lib/**/*"

@@ -13,7 +13,7 @@ import {
   GetHistoricalPriceOptions,
   GetHistoricalPriceForSingleTokenOptions,
 } from "./types";
-import symbolsConfig from "redstone-node/src/config/token-config.json";
+import symbolsConfig from "redstone-node/dist/src/config/tokens.json";
 
 const REDSTONE_API_DEFAULTS = {
   defaultProvider: "redstone",
