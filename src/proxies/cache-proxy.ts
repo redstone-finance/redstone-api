@@ -1,8 +1,9 @@
 import axios from "axios";
 import _ from "lodash";
 import { PriceDataWithSignature } from "../types";
+import { DataPackageFetchArgs, IDataPackageFetcher } from "./IDataPackageFetcher";
 
-export default class CacheProxy {
+export default class CacheProxy implements IDataPackageFetcher {
   cacheApiUrl: string;
 
   constructor(cacheApiUrl: string) {
@@ -71,5 +72,10 @@ export default class CacheProxy {
     const params = _.pickBy(args, (prop) => !_.isUndefined(prop));
     const { data } = await axios.get(this.cacheApiUrl, { params });
     return data;
+  }
+
+  // TODO: implement
+  async fetchDataPackage(args: DataPackageFetchArgs) {
+    throw 1;
   }
 }
