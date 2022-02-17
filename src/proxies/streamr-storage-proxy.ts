@@ -1,6 +1,7 @@
 import { DataPackageFetchArgs, IDataPackageFetcher } from "./IDataPackageFetcher";
 
-export default class StreamrProxy implements IDataPackageFetcher {
+// TODO: maybe remove storage proxy
+export default class StreamrStorageProxy implements IDataPackageFetcher {
   constructor(private streamId: string) {}
 
   // TODO: implement
