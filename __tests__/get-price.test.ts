@@ -1,5 +1,5 @@
 import redstone from "../src/index";
-import providers from "redstone-node/dist/src/config/providers.json";
+import config from "../src/config";
 
 const MAX_TIME_DIFF = 90000; // 90s
 
@@ -17,7 +17,7 @@ describe("Test getPrice method", () => {
 
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
-    expect(price.provider).toBe(providers["redstone-rapid"].address);
+    expect(price.provider).toBe(config.providers["redstone-rapid"].address);
     expect(price.value).toBeGreaterThan(0.1);
     expect(Date.now() - price.timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
@@ -29,7 +29,7 @@ describe("Test getPrice method", () => {
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
     expect(price.value).toBeGreaterThan(10);
-    expect(price.provider).toBe(providers["redstone-rapid"].address);
+    expect(price.provider).toBe(config.providers["redstone-rapid"].address);
     expect(Date.now() - price.timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
 
@@ -58,14 +58,14 @@ describe("Test getPrice method", () => {
   test("Should fetch AAPl price without explicit provider setting", async () => {
     const price = await redstone.getPrice("AAPL");
     
-    expect(price.provider).toBe(providers["redstone-stocks"].address);
+    expect(price.provider).toBe(config.providers["redstone-stocks"].address);
     expect(price.value).toBeGreaterThan(10);
   });
 
   test("Should fetch LINK price without explicit provider setting", async () => {
     const price = await redstone.getPrice("LINK");
     
-    expect(price.provider).toBe(providers["redstone"].address);
+    expect(price.provider).toBe(config.providers["redstone"].address);
     expect(price.value).toBeGreaterThan(1);
   });
 

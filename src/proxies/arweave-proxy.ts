@@ -2,7 +2,7 @@ import ArweaveMultihost from "arweave-multihost";
 import Arweave from "arweave";
 import { run } from "ar-gql";
 import pako from "pako";
-import providers from "redstone-node/dist/src/config/providers.json";
+import config from "../config";
 
 interface GraphQLParams {
   type: string;
@@ -110,7 +110,7 @@ export default class ArweaveProxy {
   }
 
   async getProviderDetails(providerName: string): Promise<ProviderDetails> {
-    const mapping: ProviderNameToDetailsMapping = providers as ProviderNameToDetailsMapping;
+    const mapping: ProviderNameToDetailsMapping = config.providers as ProviderNameToDetailsMapping;
 
     if (mapping[providerName] === undefined) {
       throw new Error(`Provider details not found: ${providerName}`);

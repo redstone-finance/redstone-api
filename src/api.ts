@@ -2,7 +2,6 @@ import _ from "lodash";
 import ArweaveProxy from "./proxies/arweave-proxy";
 import CacheProxy from "./proxies/cache-proxy";
 import SignatureVerifier from "./signature-verifier";
-import config from "./config";
 import PriceNotFoundError from "./errors/price-not-found";
 import {
   PriceData,
@@ -13,7 +12,7 @@ import {
   GetHistoricalPriceOptions,
   GetHistoricalPriceForSingleTokenOptions,
 } from "./types";
-import symbolsConfig from "redstone-node/dist/src/config/tokens.json";
+import config from "./config";
 
 const REDSTONE_API_DEFAULTS = {
   defaultProvider: "redstone",
@@ -462,7 +461,7 @@ export default class RedstoneApi {
       // Calculating a list of providers which support all symbols in the list
       let possibleProviders = Array.from(PROVIDERS_SORTED_BY_PRIORITY);
       for (const symbol of symbols) {
-        const details = (symbolsConfig as any)[symbol];
+        const details = (config.tokens as any)[symbol];
         if (details && details.providers && Array.isArray(details.providers)) {
           for (const provider of possibleProviders) {
             // If any of symbols doesn't support the provider
