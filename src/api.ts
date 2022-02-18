@@ -461,12 +461,12 @@ export default class RedstoneApi {
       // Calculating a list of providers which support all symbols in the list
       let possibleProviders = Array.from(PROVIDERS_SORTED_BY_PRIORITY);
       for (const symbol of symbols) {
-        const details = (config.tokens as any)[symbol];
-        if (details && details.providers && Array.isArray(details.providers)) {
+        const providersForToken = (config.tokens as any)[symbol];
+        if (providersForToken && Array.isArray(providersForToken)) {
           for (const provider of possibleProviders) {
             // If any of symbols doesn't support the provider
             // it can not be used
-            if (!details.providers.includes(provider)) {
+            if (!providersForToken.includes(provider)) {
               possibleProviders = possibleProviders.filter(p => p !== provider);
             }
           }
