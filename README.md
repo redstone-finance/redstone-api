@@ -72,11 +72,10 @@ console.log(price.timestamp); // the exact timestamp of the price
 You can use a `symbols` object to explore all available symbols right in the code.
 ```js
 import redstone from 'redstone-api';
-const { symbols } = redstone;
 
-const price = await redstone.getPrice(symbols.AR);
+const price = await redstone.getPrice("AR");
 ```
-![redstone code example](docs/redstone-symbols-example.gif)
+<!-- ![redstone code example](docs/redstone-symbols-example.gif) -->
 
 <br/>
 
