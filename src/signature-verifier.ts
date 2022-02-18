@@ -11,32 +11,35 @@ export default class SignatureVerifier {
   }
 
   public async assertValidSignature(
-    price: PriceDataWithSignature,
+    _price: PriceDataWithSignature,
   ): Promise<void> {
-    const signedData = this.getPriceSignedData(price);
-    const publicKey = price.providerPublicKey;
+    // We've decided to disable signing with Arweave signature
+    // and use only EVM compatible signatures instead
 
-    const validSignature = await this.arweaveProxy.verifySignature({
-      signedData,
-      signature: price.signature,
-      signerPublicKey: publicKey,
-    });
+    // const signedData = this.getPriceSignedData(price);
+    // const publicKey = price.providerPublicKey;
 
-    const addressFromPublicKey = await this.arweaveProxy.arweaveClient.wallets.ownerToAddress(
-      publicKey,
-    );
+    // const validSignature = await this.arweaveProxy.verifySignature({
+    //   signedData,
+    //   signature: price.signature,
+    //   signerPublicKey: publicKey,
+    // });
 
-    if (!validSignature) {
-      throw new Error("Signature verification failed for price: " + signedData);
-    }
+    // const addressFromPublicKey = await this.arweaveProxy.arweaveClient.wallets.ownerToAddress(
+    //   publicKey,
+    // );
 
-    if (addressFromPublicKey !== price.provider) {
-      throw new Error(
-        `Provider address doesn't match the public key.` +
-          ` Address: ${price.provider}.` +
-          ` Public key: ${publicKey}.`,
-      );
-    }
+    // if (!validSignature) {
+    //   throw new Error("Signature verification failed for price: " + signedData);
+    // }
+
+    // if (addressFromPublicKey !== price.provider) {
+    //   throw new Error(
+    //     `Provider address doesn't match the public key.` +
+    //       ` Address: ${price.provider}.` +
+    //       ` Public key: ${publicKey}.`,
+    //   );
+    // }
   }
 
   private getPriceSignedData(price: PriceDataWithSignature) {

@@ -1,6 +1,6 @@
 import redstone from "../src/index";
 
-const MAX_TIME_DIFF = 120000; // 120s
+const MAX_TIME_DIFF = 150000; // 150s
 
 describe("Fluent interface tests ", () => {
 

@@ -1,6 +1,6 @@
 import redstone from "../src/index";
 
-const MAX_TIME_DIFF = 120000; // 120s
+const MAX_TIME_DIFF = 150000; // 150s
 const MAX_TIME_DIFF_ARWEAVE = 7200 * 1000; // 2 hours
 
 const shouldNotHaveTechProps = (price: any) => {
@@ -32,17 +32,6 @@ describe("Test getAllPrices method", () => {
 
   test("Should not have technical props", async () => {
     const prices = await redstone.getAllPrices();
-    for (const price of Object.values(prices)) {
-      shouldNotHaveTechProps(price);
-    }
-  });
-
-  test("Should get all prices from arweave", async () => {
-    const noCacheApi = new redstone.Api({ useCache: false });
-    const prices = await noCacheApi.getAllPrices();
-    expect(Object.keys(prices).length).toBeGreaterThan(3);
-    expect(Date.now() - prices["AR"].timestamp).toBeLessThan(MAX_TIME_DIFF_ARWEAVE);
-    expect(Date.now() - prices["BTC"].timestamp).toBeLessThan(MAX_TIME_DIFF_ARWEAVE);
     for (const price of Object.values(prices)) {
       shouldNotHaveTechProps(price);
     }
