@@ -57,6 +57,7 @@
   },
   "homepage": "https://api.docs.redstone.finance/",
   "devDependencies": {
+    "@types/bluebird": "^3.5.36",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.33",
@@ -79,9 +80,11 @@
     "arweave": "^1.10.16",
     "arweave-multihost": "^0.1.0",
     "axios": "^0.21.1",
+    "bluebird": "^3.7.2",
     "deep-sort-object": "^1.0.2",
     "lodash": "^4.17.21",
-    "pako": "^2.0.3"
+    "pako": "^2.0.3",
+    "redstone-node": "^0.4.25"
   },
   "files": [
     "lib/**/*"

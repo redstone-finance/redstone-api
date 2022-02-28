@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "lib": ["ES2020", "DOM"],
     "target": "es5",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
     "declaration": true,
-    "outDir": "./lib",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir": "lib"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "__tests__", "examples", "coverage"]
