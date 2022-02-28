@@ -23,10 +23,6 @@ export abstract class Fetcher {
   // If asset is not defined we fetch the whole package
   constructor(protected config: SourceConfig, protected asset?: string) {}
 
-  // By default it doesn't do anything
-  // But for e.g. streamr fetchers it can subscribe to a stream
-  init(): void {}
-
   abstract getLatestData(): Promise<SignedDataPackageResponse>;
 
   async getLatestDataWithTimeout(

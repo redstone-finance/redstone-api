@@ -4,9 +4,9 @@
   },
   "verbose": true,
   "bail": 1,
-  "testEnvironment": "jsdom",
+  "testEnvironment": "node",
   "collectCoverage": true,
-  "testTimeout": 20000,
+  "testTimeout": 120000,
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": [
     "ts",

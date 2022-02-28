@@ -1,4 +1,4 @@
-import StreamrClient from "streamr-client";
+import StreamrClient, { Subscription } from "streamr-client";
 import _ from "lodash";
 import { Fetcher, SignedDataPackageResponse, SourceConfig } from "./Fetcher";
 
@@ -23,22 +23,21 @@ export class StreamrFetcher extends Fetcher {
     });
   }
 
-  init() {
-    const streamId = this.getStreamId();
-    this.streamrClient.subscribe(
-      streamId,
-      (value: any) => {
-        console.log(`Received new value from: ${streamId}`);
-        this.lastValue = this.extractPriceValue(value);
-      });
-    console.log(`Subscribed to streamr: ${streamId}`);
-  }
-
   async getLatestData(): Promise<SignedDataPackageResponse> {
-    if (!this.lastValue) {
-      throw new Error("No data received from stream yet");
-    }
-    return this.lastValue;
+    // Getting streamr stream id
+    const streamId = this.getStreamId();
+    console.log(`Using streamr stream: ${streamId}`);
+
+    const dataPackageResponse = await new Promise(resolve => {
+      // Subscribe to streamr
+      this.streamrClient.subscribe(streamId, resolve);
+    });
+
+    // Unsubscribe right after first received value
+    await this.streamrClient.unsubscribe(streamId);
+
+    // Convert response from streamr to SignedDataPackageResponse
+    return this.extractPriceValue(dataPackageResponse);
   }
 
   protected getStreamId() {
