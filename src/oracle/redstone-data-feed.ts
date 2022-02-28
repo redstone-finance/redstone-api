@@ -26,7 +26,6 @@ export interface DataSourcesConfig {
   timeoutMilliseconds: number;
   maxTimestampDiffMilliseconds: number;
   preVerifySignatureOffchain: boolean;
-  defaultSignerEvmAddress: string;
   sources: SourceConfig[],
 }
 
@@ -40,22 +39,13 @@ export type DataFeedId =
   | "redstone-stocks"
   | "redstone-rapid"
   | "redstone-avalanche"
-  | "redstone-avalanche-prod"
-  | "custom";
+  | "redstone-avalanche-prod";
 
 export class RedstoneDataFeed {
 
   private fetchers: Fetcher[] = [];
 
-  constructor(
-    dataFeedId: DataFeedId,
-    private dataFeedOptions: DataFeedOptions = {}) {
-
-      // Getting default data sources config for provider if not specified
-      if (!this.dataFeedOptions.dataSources) {
-        this.dataFeedOptions.dataSources = getDefaultDataSourceConfig(dataFeedId);
-      }
-
+  constructor(private dataFeedOptions: DataFeedOptions = {}) {
       // Init fetchers
       for (const [i, source] of Object.entries(this.dataFeedOptions.dataSources!.sources!)) {
         if (dataFeedOptions.asset && source.disabledForSinglePrices) {
@@ -80,10 +70,6 @@ export class RedstoneDataFeed {
       : await this.fetchAllAndSelectValid(timeoutMilliseconds);
 
     return convertResponseToPricePackage(selectedResponse);
-  }
-
-  getDefaultSigner(): string {
-    return this.dataFeedOptions.dataSources!.defaultSignerEvmAddress;
   }
 
   private async fetchFirstValid(timeoutMilliseconds: number): Promise<SignedDataPackageResponse> {
@@ -148,15 +134,5 @@ export class RedstoneDataFeed {
       this.dataFeedOptions.dataSources!.valueSelectionAlgorithm);
 
     return selectedResponse;
-  }
-}
-
-function getDefaultDataSourceConfig(priceFeedId: DataFeedId): DataSourcesConfig {
-  try {
-    return require(`./default-data-sources/${priceFeedId}.json`);
-  } catch {
-    throw new Error(
-      `Selected price feed doesn't have default data sources config. `
-      + `You should proide it for "${priceFeedId}" price feed`);
   }
 }

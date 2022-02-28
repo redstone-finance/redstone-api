@@ -2,7 +2,9 @@
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
-  "testEnvironment": "node",
+  "verbose": true,
+  "bail": 1,
+  "testEnvironment": "jsdom",
   "collectCoverage": true,
   "testTimeout": 20000,
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",

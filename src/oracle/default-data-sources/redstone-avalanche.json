@@ -49,7 +49,6 @@
       "evmSignerAddress": "0x41ed5321B76C045f5439eCf9e73F96c6c25B1D75"
     }
   ],
-  "defaultSignerEvmAddress": "0x3a7d971de367fe15d164cdd952f64205f2d9f10c",
   "valueSelectionAlgorithm": "first-valid",
   "timeoutMilliseconds": 10000,
   "maxTimestampDiffMilliseconds": 150000,

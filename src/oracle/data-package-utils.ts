@@ -31,12 +31,12 @@ export function selectDataPackage(
 
 export function validateDataPackage(
   fetchedPackage: SignedDataPackageResponse,
-  priceFeedOptions: DataFeedOptions,
+  dataFeedOptions: DataFeedOptions,
   signer: string,
 ): boolean {
 
-  const maxTimestampDiffMilliseconds = priceFeedOptions.dataSources?.maxTimestampDiffMilliseconds;
-  const preVerifySignatureOffchain = priceFeedOptions.dataSources?.preVerifySignatureOffchain;
+  const maxTimestampDiffMilliseconds = dataFeedOptions.dataSources?.maxTimestampDiffMilliseconds;
+  const preVerifySignatureOffchain = dataFeedOptions.dataSources?.preVerifySignatureOffchain;
 
   // Checking timestamp diff
   const timeDiffMilliseconds = Date.now() - fetchedPackage.timestamp;

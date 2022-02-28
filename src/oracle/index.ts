@@ -1,34 +1,40 @@
-export type DataFeedId =
-  | "redstone"
-  | "redstone-stocks"
-  | "redstone-rapid"
-  | "redstone-avalanche"
-  | "redstone-prod-avalanche";
+import {
+  DataSourcesConfig,
+  SignedPriceDataType,
+  DataFeedId,
+  RedstoneDataFeed,
+} from "./redstone-data-feed";
 
-export interface DataPackageConfig {
-  value: any;
+function getDefaultDataSourcesConfig(dataFeedId: DataFeedId): DataSourcesConfig {
+  try {
+    return require(`./default-data-sources/${dataFeedId}.json`);
+  } catch {
+    throw new Error(
+      `Selected price feed doesn't have default data sources config. `
+      + `You should proide it for "${dataFeedId}" price feed`);
+  }
 }
 
-export interface DataPackage {
-  value: any;
-  timestamp: number;
+async function getFromDataFeed(
+  dataFeedId: DataFeedId,
+  asset?: string
+): Promise<SignedPriceDataType> {
+  const dataPackageConfig = getDefaultDataSourcesConfig(dataFeedId);
+  return await get(dataPackageConfig, asset);
 }
 
-function getDefaultDataPackageConfig(dataFeedId: DataFeedId): DataPackageConfig {
-  throw 1;
+async function get(
+  dataSourcesConfig: DataSourcesConfig,
+  asset?: string
+): Promise<SignedPriceDataType> {
+  return await new RedstoneDataFeed({
+    dataSources: dataSourcesConfig,
+    asset,
+  }).getSignedPrice();
 }
-
-async function get(dataPackageConfig: DataPackageConfig): Promise<DataPackage> {
-  throw 1;
-}
-
-async function getFromDataFeed(dataFeedId: DataFeedId): Promise<DataPackage> {
-  const dataPackageConfig = getDefaultDataPackageConfig(dataFeedId);
-  return await get(dataPackageConfig);
-};
 
 export default {
   get,
   getFromDataFeed,
-  getDefaultDataPackageConfig,
+  getDefaultDataSourcesConfig,
 };
