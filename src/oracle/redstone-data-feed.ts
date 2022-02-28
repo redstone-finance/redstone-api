@@ -1,4 +1,4 @@
-import bluebird from "bluebird";
+import bluebird, { AggregateError } from "bluebird";
 import _ from "lodash";
 import { Fetcher, SignedDataPackageResponse, SourceConfig } from "./fetchers/Fetcher";
 import { createFetcher } from "./fetchers";
@@ -91,7 +91,17 @@ export class RedstoneDataFeed {
     });
 
     // Returning the reponse from the first resolved promise
-    return await bluebird.Promise.any(promises);
+    try {
+      return await bluebird.Promise.any(promises);
+    } catch (err) {
+      if (err instanceof AggregateError) {
+        // We log each error inside AggregateError,
+        // because AggregateError doesn't show
+        // enough details about each error
+        err.forEach(console.error);
+      }
+      throw err;
+    }
   }
 
   private async fetchAllAndSelectValid(timeoutMilliseconds: number): Promise<SignedDataPackageResponse> {

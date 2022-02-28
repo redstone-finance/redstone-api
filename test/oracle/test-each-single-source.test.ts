@@ -28,7 +28,6 @@ describe("Test all sources separately", () => {
             sources: [ source ], // Single source
           });
         });
-
       }
     });
   }
