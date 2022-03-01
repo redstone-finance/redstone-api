@@ -1,12 +1,6 @@
 {
   "sources": [
     {
-      "type": "streamr",
-      "streamrEndpointPrefix": "0x981bdA8276ae93F567922497153de7A5683708d3/redstone-oracle",
-      "disabledForSinglePrices": false,
-      "evmSignerAddress": "0x981bdA8276ae93F567922497153de7A5683708d3"
-    },
-    {
       "type": "cache-layer",
       "url": "https://api.redstone.finance",
       "providerId": "TEHhCDWy-vGmPSZsYJyM0aP_MM4xESgyIZdf5mVODzg",
