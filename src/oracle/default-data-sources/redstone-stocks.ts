@@ -1,4 +1,6 @@
-{
+import { DataSourcesConfig } from "../redstone-data-feed";
+
+const config: DataSourcesConfig = {
   "sources": [
     {
       "type": "streamr",
@@ -29,4 +31,6 @@
   "timeoutMilliseconds": 10000,
   "maxTimestampDiffMilliseconds": 150000,
   "preVerifySignatureOffchain": true
-}
+};
+
+export default config;

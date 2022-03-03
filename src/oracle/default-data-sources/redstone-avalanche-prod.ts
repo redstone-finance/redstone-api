@@ -1,4 +1,6 @@
-{
+import { DataSourcesConfig } from "../redstone-data-feed";
+
+const config: DataSourcesConfig = {
   "sources": [
     {
       "type": "cache-layer",
@@ -41,4 +43,6 @@
   "timeoutMilliseconds": 10000,
   "maxTimestampDiffMilliseconds": 150000,
   "preVerifySignatureOffchain": true
-}
+};
+
+export default config;

@@ -4,14 +4,16 @@ import {
   DataFeedId,
   RedstoneDataFeed,
 } from "./redstone-data-feed";
+import defaultDataSources from "./default-data-sources";
 
 function getDefaultDataSourcesConfig(dataFeedId: DataFeedId): DataSourcesConfig {
-  try {
-    return require(`./default-data-sources/${dataFeedId}.json`);
-  } catch {
+  const dataSourcesConfig = defaultDataSources[dataFeedId];
+  if (!dataSourcesConfig) {
     throw new Error(
       `Selected price feed doesn't have default data sources config. `
       + `You should proide it for "${dataFeedId}" price feed`);
+  } else {
+    return dataSourcesConfig;
   }
 }
 
