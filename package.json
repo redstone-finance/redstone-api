@@ -10,8 +10,6 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "yarn build",
     "lint": "tslint -p ./",
-    "prepublishOnly": "yarn lint",
-    "preversion": "yarn lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "generate-docs": "typedoc ./src/** --out .exp/docs-typedoc"
