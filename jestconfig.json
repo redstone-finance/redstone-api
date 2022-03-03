@@ -5,7 +5,7 @@
   "verbose": true,
   "bail": 1,
   "testEnvironment": "node",
-  "collectCoverage": true,
+  "collectCoverage": false,
   "testTimeout": 120000,
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": [

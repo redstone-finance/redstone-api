@@ -9,6 +9,6 @@
   ],
   "valueSelectionAlgorithm": "first-valid",
   "timeoutMilliseconds": 10000,
-  "maxTimestampDiffMilliseconds": 150000,
+  "maxTimestampDiffMilliseconds": 175000,
   "preVerifySignatureOffchain": true
 }
