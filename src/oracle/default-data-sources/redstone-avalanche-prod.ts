@@ -40,8 +40,8 @@ const config: DataSourcesConfig = {
     }
   ],
   "valueSelectionAlgorithm": "first-valid",
-  "timeoutMilliseconds": 10000,
-  "maxTimestampDiffMilliseconds": 150000,
+  "timeoutMilliseconds": 50000,
+  "maxTimestampDiffMilliseconds": 175000,
   "preVerifySignatureOffchain": true
 };
 

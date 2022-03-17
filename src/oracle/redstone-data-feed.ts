@@ -98,7 +98,13 @@ export class RedstoneDataFeed {
         // We log each error inside AggregateError,
         // because AggregateError doesn't show
         // enough details about each error
-        err.forEach(console.error);
+        let additionalErrMsg = ' ', errIndex = 0;
+        err.forEach(subError => {
+          additionalErrMsg +=
+            `\n| ${errIndex}: ${subError.message}. Stack: ${subError.stack} |\n`;
+          errIndex++;
+        });
+        err.message += "Many errors: " + additionalErrMsg;
       }
       throw err;
     }
