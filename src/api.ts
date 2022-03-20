@@ -12,7 +12,7 @@ import {
   GetHistoricalPriceOptions,
   GetHistoricalPriceForSingleTokenOptions,
 } from "./types";
-import config from "./config";
+import config from "./config/index";
 
 const REDSTONE_API_DEFAULTS = {
   defaultProvider: "redstone",
