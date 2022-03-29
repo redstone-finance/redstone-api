@@ -1,5 +1,5 @@
-import redstone from "../src/index";
-import config from "../src/config";
+import redstone from "../../src/index";
+import config from "../../src/config";
 
 const MAX_TIME_DIFF = 90000; // 90s
 
@@ -57,14 +57,14 @@ describe("Test getPrice method", () => {
 
   test("Should fetch AAPl price without explicit provider setting", async () => {
     const price = await redstone.getPrice("AAPL");
-    
+
     expect(price.provider).toBe(config.providers["redstone-stocks"].address);
     expect(price.value).toBeGreaterThan(10);
   });
 
   test("Should fetch LINK price without explicit provider setting", async () => {
     const price = await redstone.getPrice("LINK");
-    
+
     expect(price.provider).toBe(config.providers["redstone"].address);
     expect(price.value).toBeGreaterThan(1);
   });

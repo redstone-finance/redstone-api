@@ -3,6 +3,8 @@ import _ from "lodash";
 import { PriceDataType, SignedPriceDataType } from "./redstone-data-feed";
 import { SignedDataPackageResponse } from "./fetchers/Fetcher";
 import { DataFeedOptions, ValueSelectionAlgorithm } from "./redstone-data-feed";
+import InvalidSignatureError from "../errors/invalid-signature";
+import TooOldTimestampError from "../errors/too-old-timestamp";
 
 const priceSigner = new EvmPriceSigner();
 
@@ -44,7 +46,7 @@ export function validateDataPackage(
   // Checking timestamp diff
   if (maxTimestampDiffMilliseconds && maxTimestampDiffMilliseconds < timeDiffMilliseconds) {
     console.warn(`Timestamp is too old: ${fetchedPackage.timestamp}`);
-    return false;
+    throw new TooOldTimestampError(fetchedPackage.timestamp);
   }
 
   // Offchain signature verification
@@ -59,10 +61,10 @@ export function validateDataPackage(
       signature: fetchedPackage.signature,
       liteSignature: fetchedPackage.liteSignature,
     });
-    
+
     if (!isValidSignature) {
       console.warn(`Signature is invalid: ${fetchedPackage.liteSignature}`);
-      return false;
+      throw new InvalidSignatureError(fetchedPackage.liteSignature);
     }
   }
 

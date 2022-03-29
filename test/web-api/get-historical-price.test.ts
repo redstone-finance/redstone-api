@@ -1,4 +1,4 @@
-import redstone from "../src/index";
+import redstone from "../../src/index";
 
 const shouldNotHaveTechProps = (price: any) => {
   const technicalProps = ["signature", "version", "providerPublicKey"];

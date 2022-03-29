@@ -46,15 +46,15 @@ export class RedstoneDataFeed {
   private fetchers: Fetcher[] = [];
 
   constructor(private dataFeedOptions: DataFeedOptions = {}) {
-      // Init fetchers
-      for (const [i, source] of Object.entries(this.dataFeedOptions.dataSources!.sources!)) {
-        if (dataFeedOptions.asset && source.disabledForSinglePrices) {
-          console.log(`Skipping ${i} (${source.type}) source init`);
-        } else {
-          const fetcherForSource = createFetcher(source, dataFeedOptions.asset);
-          this.fetchers.push(fetcherForSource);
-        }
+    // Init fetchers
+    for (const [i, source] of Object.entries(this.dataFeedOptions.dataSources!.sources!)) {
+      if (dataFeedOptions.asset && source.disabledForSinglePrices) {
+        console.log(`Skipping ${i} (${source.type}) source init`);
+      } else {
+        const fetcherForSource = createFetcher(source, dataFeedOptions.asset);
+        this.fetchers.push(fetcherForSource);
       }
+    }
   }
 
   // This is the entrypoint function of this module
@@ -79,13 +79,12 @@ export class RedstoneDataFeed {
       return (async (fIndex: number) => {
         const response = await fetcher.getLatestDataWithTimeout(timeoutMilliseconds);
         const expectedSigner = fetcher.getEvmSignerAddress();
-        const isValid = validateDataPackage(response, this.dataFeedOptions, expectedSigner);
-        if (isValid) {
+        try {
+          validateDataPackage(response, this.dataFeedOptions, expectedSigner);
           return response;
-        } else {
+        } catch (err) {
           console.warn(`Invalid response for fetcher ${fIndex}/${this.fetchers.length}: ` + JSON.stringify(response));
-          throw new Error(
-            `Received invalid response from fetcher: ${fIndex}/${this.fetchers.length}`);
+          throw err;
         }
       })(fetcherIndex);
     });
@@ -123,7 +122,7 @@ export class RedstoneDataFeed {
       const fetcherResult = results[fetcherIndex];
       const expectedSigner = fetcher.getEvmSignerAddress();
 
-      if (fetcherResult.status === "fulfilled" ) {
+      if (fetcherResult.status === "fulfilled") {
         const dataPackage = fetcherResult.value;
         const isValid = validateDataPackage(
           dataPackage,

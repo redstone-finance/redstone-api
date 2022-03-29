@@ -1,4 +1,4 @@
-import redstone from "../src/index";
+import redstone from "../../src/index";
 
 const MAX_TIME_DIFF = 150000; // 150s
 
