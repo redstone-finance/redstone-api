@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '45 * * * *'
+    - cron: '0 1 * * *'
 jobs:
   test_schedule:
     runs-on: ubuntu-latest
@@ -13,5 +13,7 @@ jobs:
         run: yarn
       - name: Build project
         run: yarn build
-      - name: Run oracle tests
-        run: yarn test test/oracle
+      - name: Test each data feed
+        run: yarn test test/oracle/check-each-data-feed.test.ts
+      - name: Big test for avalanche-prod data feed
+        run: yarn test test/oracle/big-test-avalanche-prod.test.ts
