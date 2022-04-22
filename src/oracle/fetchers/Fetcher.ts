@@ -31,6 +31,7 @@ export abstract class Fetcher {
     return await timeout(this.getLatestData(), timeoutMs);
   }
 
+  // TODO: check if this function is still needed
   getEvmSignerAddress(): string {
     return this.config.evmSignerAddress;
   }

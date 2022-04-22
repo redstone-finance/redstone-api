@@ -34,7 +34,7 @@ export function selectDataPackage(
 export function validateDataPackage(
   fetchedPackage: SignedDataPackageResponse,
   dataFeedOptions: DataFeedOptions,
-  signer: string,
+  signerAddress: string,
 ): boolean {
 
   const maxTimestampDiffMilliseconds = dataFeedOptions.dataSources?.maxTimestampDiffMilliseconds;
@@ -57,8 +57,7 @@ export function validateDataPackage(
         prices: fetchedPackage.prices,
         timestamp: fetchedPackage.timestamp,
       },
-      signer,
-      signature: fetchedPackage.signature,
+      signerAddress,
       liteSignature: fetchedPackage.liteSignature,
     });
 
