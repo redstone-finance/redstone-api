@@ -225,7 +225,7 @@ To fetch prices with pagination specify token symbol as the first argument of th
 💡 Note: pagination is supported only for a single token.
 
 ```js
-const prices = await redstone.getHistoricalPrices("AR", {
+const prices = await redstone.getHistoricalPrice("AR", {
   offset: 1000,
   limit: 100,
 });
