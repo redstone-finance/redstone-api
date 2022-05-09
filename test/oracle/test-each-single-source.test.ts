@@ -22,7 +22,8 @@ describe("Test all sources separately", () => {
       for (let sourceIndex = 0; sourceIndex < sourcesCount; sourceIndex++) {
         const source = defaultSourcesConfig.sources[sourceIndex];
 
-        test(`Should fetch using source: ${sourceIndex + 1}/${sourcesCount} (${source.type})`, async () => {
+        const shortUrl = source.url || "";
+        test(`Should fetch using source: ${sourceIndex + 1}/${sourcesCount} (${source.type}: ${shortUrl})`, async () => {
           await testFetching({
             ...defaultSourcesConfig,
             sources: [ source ], // Single source
