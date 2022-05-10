@@ -9,6 +9,7 @@ const dataFeedIds = [
   "redstone-rapid",
   "redstone-avalanche",
   "redstone-avalanche-prod",
+  "redstone-custom-urls-demo",
 ] as DataFeedId[];
 
 describe("Test all sources separately", () => {
@@ -23,8 +24,9 @@ describe("Test all sources separately", () => {
         const source = defaultSourcesConfig.sources[sourceIndex];
 
         const shortUrl = source.url || "";
-        test(`Should fetch using source: ${sourceIndex + 1}/${sourcesCount} (${source.type}: ${shortUrl})`, async () => {
-          await testFetching({
+        const sourceDescription = `${dataFeedId} ${sourceIndex + 1}/${sourcesCount} (${source.type}: ${shortUrl})`;
+        test(`Should fetch using source: ${sourceDescription})`, async () => {
+          await testFetching(sourceDescription, {
             ...defaultSourcesConfig,
             sources: [ source ], // Single source
           });
@@ -35,8 +37,14 @@ describe("Test all sources separately", () => {
 
 });
 
-async function testFetching(dataSourcesConfig: DataSourcesConfig, asset?: string) {
+async function testFetching(
+  sourceDescription: string,
+  dataSourcesConfig: DataSourcesConfig,
+  asset?: string
+) {
   const dataPackage = await redstone.oracle.get(dataSourcesConfig, asset);
   const timestampDiff = Date.now() - dataPackage.priceData.timestamp;
   expect(timestampDiff).toBeLessThan(MAX_TIME_DIFF);
+  const secondsDiff = timestampDiff / 1000;
+  console.log(`${sourceDescription}: ${secondsDiff}s delay`);
 }

@@ -39,7 +39,8 @@ export type DataFeedId =
   | "redstone-stocks"
   | "redstone-rapid"
   | "redstone-avalanche"
-  | "redstone-avalanche-prod";
+  | "redstone-avalanche-prod"
+  | "redstone-custom-urls-demo";
 
 export class RedstoneDataFeed {
 

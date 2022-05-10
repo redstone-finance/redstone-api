@@ -7,6 +7,7 @@ const dataFeedIds = [
   "redstone-rapid",
   "redstone-avalanche",
   "redstone-avalanche-prod",
+  "redstone-custom-urls-demo",
 ] as DataFeedId[];
 
 describe("Test all data feeds", () => {
