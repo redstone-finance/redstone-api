@@ -1,6 +1,6 @@
 {
   "name": "redstone-api-extended",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Extended javascript library for fetching data from Redstone ecosystem",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
