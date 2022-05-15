@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc",
     "test": "jest --config jestconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prepare": "yarn build",
+    "prepublishOnly": "yarn build",
     "lint": "tslint -p ./",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
