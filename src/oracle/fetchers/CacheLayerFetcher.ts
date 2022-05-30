@@ -12,4 +12,13 @@ export class CacheLayerFetcher extends Fetcher {
     });
     return response.data;
   }
+
+  async getLatestMultipleData(): Promise<SignedDataPackageResponse> {
+    const response = await axios.get(`${this.config.url!}/packages/multiple`, {
+      params: {
+        symbol: this.asset,
+      },
+    });
+    return response.data;
+  }
 }

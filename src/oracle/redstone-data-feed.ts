@@ -73,6 +73,17 @@ export class RedstoneDataFeed {
     return convertResponseToPricePackage(selectedResponse);
   }
 
+  // This is the entrypoint function of this module for multiple prices
+  async getSignedMultiplePrices(): Promise<SignedPriceDataType> {
+    const timeoutMilliseconds =
+      this.dataFeedOptions.dataSources?.timeoutMilliseconds
+      || DEFAULT_TIMEOUT_MILLISECONDS;
+
+    const selectedResponse = await this.fetchMultipleValid(timeoutMilliseconds)
+
+    return convertResponseToPricePackage(selectedResponse);
+  }
+
   private async fetchFirstValid(timeoutMilliseconds: number): Promise<SignedDataPackageResponse> {
     let fetcherIndex = 0;
     const promises = this.fetchers.map(fetcher => {
@@ -150,5 +161,42 @@ export class RedstoneDataFeed {
       this.dataFeedOptions.dataSources!.valueSelectionAlgorithm);
 
     return selectedResponse;
+  }
+
+  private async fetchMultipleValid(timeoutMilliseconds: number): Promise<SignedDataPackageResponse> {
+    let fetcherIndex = 0;
+    const promises = this.fetchers.map(fetcher => {
+      fetcherIndex++;
+      return (async (fIndex: number) => {
+        const response = await fetcher.getLatestMultipleDataWithTimeout(timeoutMilliseconds);
+        const expectedSigner = fetcher.getEvmSignerAddress();
+        try {
+          validateDataPackage(response, this.dataFeedOptions, expectedSigner);
+          return response;
+        } catch (err) {
+          console.warn(`Invalid response for fetcher ${fIndex}/${this.fetchers.length}: ` + JSON.stringify(response));
+          throw err;
+        }
+      })(fetcherIndex);
+    });
+
+    // Returning the reponse from the first resolved promise
+    try {
+      return await bluebird.Promise.any(promises);
+    } catch (err) {
+      if (err instanceof AggregateError) {
+        // We log each error inside AggregateError,
+        // because AggregateError doesn't show
+        // enough details about each error
+        let additionalErrMsg = ' ', errIndex = 0;
+        err.forEach(subError => {
+          additionalErrMsg +=
+            `\n| ${errIndex}: ${subError.message}. Stack: ${subError.stack} |\n`;
+          errIndex++;
+        });
+        err.message += "Many errors: " + additionalErrMsg;
+      }
+      throw err;
+    }
   }
 }

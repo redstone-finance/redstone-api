@@ -24,11 +24,18 @@ export abstract class Fetcher {
   constructor(protected config: SourceConfig, protected asset?: string) {}
 
   abstract getLatestData(): Promise<SignedDataPackageResponse>;
+  abstract getLatestMultipleData(): Promise<SignedDataPackageResponse>;
 
   async getLatestDataWithTimeout(
     timeoutMs: number,
   ): Promise<SignedDataPackageResponse> {
     return await timeout(this.getLatestData(), timeoutMs);
+  }
+
+  async getLatestMultipleDataWithTimeout(
+    timeoutMs: number,
+  ): Promise<SignedDataPackageResponse> {
+    return await timeout(this.getLatestMultipleData(), timeoutMs);
   }
 
   // TODO: check if this function is still needed
