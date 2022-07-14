@@ -16,14 +16,17 @@ export class StreamrStorageFetcher extends StreamrFetcher {
     return new Promise((resolve) => {
 
       // Getting data from streamr storage
-      this.streamrClient.resend({
-        stream: streamId,
-        resend: {
+      this.streamrClient.resend(
+        {
+          stream: streamId,
+        }, 
+        {
           last: 1,
         },
-      }, (value: any) => {
-        resolve(this.extractPriceValue(value));
-      })
+        (value: any) => {
+          resolve(this.extractPriceValue(value));
+        }
+      )
     });
   }
 }
