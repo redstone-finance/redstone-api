@@ -39,13 +39,11 @@ describe("Test all sources separately", () => {
             maxTimestampDiffMilliseconds: 365 * 24 * 3600 * 1000,
             sources: [source], // Single source
           });
+
+          console.log("=== FINAL REPORT ===");
+          console.log(finalReport);
         });
       }
-
-      afterAll(() => {
-        console.log("=== FINAL REPORT ===");
-        console.log(finalReport);
-      });
     });
   }
 });
