@@ -1,14 +1,6 @@
-import StreamrClient, { Subscription } from "streamr-client";
+import StreamrClient from "streamr-client";
 import _ from "lodash";
 import { Fetcher, SignedDataPackageResponse, SourceConfig } from "./Fetcher";
-
-// This "private" key is used for streamr client initialization.
-// It can be anythng, because redstone data streams are always
-// public and can be accessed by any party.
-// Previously we generated a random key each time, but turned
-// out that it consumes significant amount of CPU resources
-// and slows down web apps that use redstone-evm-connector
-const ANY_PRIVATE_KEY = "0000000000000000000000000000000000000000000000000000000000000001";
 
 export class StreamrFetcher extends Fetcher {
   protected lastValue?: SignedDataPackageResponse;
@@ -16,11 +8,7 @@ export class StreamrFetcher extends Fetcher {
 
   constructor(config: SourceConfig, asset?: string) {
     super(config, asset);
-    this.streamrClient = new StreamrClient({
-      auth: {
-        privateKey: ANY_PRIVATE_KEY,
-      },
-    });
+    this.streamrClient = new StreamrClient();
   }
 
   async getLatestData(): Promise<SignedDataPackageResponse> {
