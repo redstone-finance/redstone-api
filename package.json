@@ -84,7 +84,7 @@
     "lodash": "^4.17.21",
     "pako": "^2.0.3",
     "redstone-node": "^0.4.35",
-    "streamr-client": "5.5.8"
+    "streamr-client": "^6.0.9"
   },
   "files": [
     "lib/**/*"
