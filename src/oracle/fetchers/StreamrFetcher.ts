@@ -1,4 +1,4 @@
-import StreamrClient, { Subscription } from "streamr-client";
+import StreamrClient from "streamr-client";
 import _ from "lodash";
 import { Fetcher, SignedDataPackageResponse, SourceConfig } from "./Fetcher";
 
@@ -8,7 +8,8 @@ import { Fetcher, SignedDataPackageResponse, SourceConfig } from "./Fetcher";
 // Previously we generated a random key each time, but turned
 // out that it consumes significant amount of CPU resources
 // and slows down web apps that use redstone-evm-connector
-const ANY_PRIVATE_KEY = "0000000000000000000000000000000000000000000000000000000000000001";
+const ANY_PRIVATE_KEY =
+  "0000000000000000000000000000000000000000000000000000000000000001";
 
 export class StreamrFetcher extends Fetcher {
   protected lastValue?: SignedDataPackageResponse;
@@ -28,7 +29,7 @@ export class StreamrFetcher extends Fetcher {
     const streamId = this.getStreamId();
     console.log(`Using streamr stream: ${streamId}`);
 
-    const dataPackageResponse = await new Promise(resolve => {
+    const dataPackageResponse = await new Promise((resolve) => {
       // Subscribe to streamr
       this.streamrClient.subscribe(streamId, resolve);
     });
@@ -41,18 +42,20 @@ export class StreamrFetcher extends Fetcher {
   }
 
   protected getStreamId() {
-    return `${this.config.streamrEndpointPrefix!}/`
-      + (this.asset ? "prices" : "package");
+    return (
+      `${this.config.streamrEndpointPrefix!}/` +
+      (this.asset ? "prices" : "package")
+    );
   }
 
   protected extractPriceValue(receivedValue: any): SignedDataPackageResponse {
     if (this.asset) {
       const assetsArray: any[] = Object.values(receivedValue);
       const assetData = assetsArray.find(
-        ({ symbol }: any) => symbol === this.asset);
+        ({ symbol }: any) => symbol === this.asset
+      );
       if (!assetData) {
-        throw new Error(
-          `Data not found for symbol: ${this.asset}`);
+        throw new Error(`Data not found for symbol: ${this.asset}`);
       }
       return {
         timestamp: assetData.timestamp,

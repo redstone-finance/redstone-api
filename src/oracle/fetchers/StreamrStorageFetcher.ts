@@ -12,18 +12,21 @@ export class StreamrStorageFetcher extends StreamrFetcher {
   init() {}
 
   getLatestData(): Promise<SignedDataPackageResponse> {
-    const streamId = this.getStreamId();
-    return new Promise((resolve) => {
-
-      // Getting data from streamr storage
-      this.streamrClient.resend({
-        stream: streamId,
-        resend: {
-          last: 1,
-        },
-      }, (value: any) => {
-        resolve(this.extractPriceValue(value));
-      })
-    });
+    throw new Error("Streamr Storage fetcher disabled");
+    // const streamId = this.getStreamId();
+    // return new Promise((resolve) => {
+    //   // Getting data from streamr storage
+    //   this.streamrClient.resend(
+    //     {
+    //       stream: streamId,
+    //       resend: {
+    //         last: 1,
+    //       },
+    //     },
+    //     (value: any) => {
+    //       resolve(this.extractPriceValue(value));
+    //     }
+    //   );
+    // });
   }
 }
