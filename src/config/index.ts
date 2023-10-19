@@ -3,7 +3,7 @@ import tokens from "./tokens";
 
 export default {
   version: "0.4",
-  cacheApiUrl: "https://api.redstone.finance/prices",
+  cacheApiUrl: "http://localhost:9000/prices",
   providers,
   tokens,
 };
