@@ -3,7 +3,7 @@
 Redstone implements a fluent interface to simplify query creation thanks to a human readable syntax.
 
 ### Importing
-To use the fluent interface you should import the redstone-api in a standard way and initialise a query calling `redstone.query()`;
+To use the fluent interface you should import the redstone-api in a standard way and initialize a query calling `redstone.query()`;
 ```js
 // Using Node.js `require()`
 const redstone = require('redstone-api');
@@ -14,7 +14,7 @@ import redstone from 'redstone-api';
 ```
 
 ## Usage
-All redstone queries consits of 4 parts:
+All redstone queries consists of 4 parts:
 - Query initialization (`redstone.query()`)
 - What to fetch (`symbol` or `symbols`)
 - For which date/dates (`latest`, `atDate`, `forLastHours`, `hoursAgo`, `fromDate`, `toDate`)
