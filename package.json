@@ -1,6 +1,6 @@
 {
   "name": "redstone-api",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "Javascript library for fetching trusted token pricing data from Redstone data ecosystem",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,7 +14,8 @@
     "preversion": "yarn lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
-    "generate-docs": "typedoc ./src/** --out .exp/docs-typedoc"
+    "generate-docs": "typedoc ./src/** --out .exp/docs-typedoc",
+    "pack-package": "yarn build && npm pack"
   },
   "repository": {
     "type": "git",
@@ -78,7 +79,7 @@
     "ar-gql": "^0.0.6",
     "arweave": "^1.10.16",
     "arweave-multihost": "^0.1.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "deep-sort-object": "^1.0.2",
     "lodash": "^4.17.21",
     "pako": "^2.0.3"

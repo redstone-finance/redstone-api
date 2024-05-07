@@ -47,7 +47,7 @@ export default class CacheProxy {
   }): Promise<{ [symbol: string]: PriceDataWithSignature }> {
     const params: any = {
       provider: args.provider,
-      toTimestamp: args.timestamp,
+      toTimestamp: args.timestamp ?? Date.now()
     };
 
     if (args.symbols !== undefined) {
