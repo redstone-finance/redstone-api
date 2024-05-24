@@ -79,7 +79,7 @@
     "ar-gql": "^0.0.6",
     "arweave": "^1.10.16",
     "arweave-multihost": "^0.1.0",
-    "axios": "^1.6.0",
+    "axios": "^1.7.2",
     "deep-sort-object": "^1.0.2",
     "lodash": "^4.17.21",
     "pako": "^2.0.3"
