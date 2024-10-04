@@ -1,5 +1,6 @@
 import _ from "lodash";
 import ArweaveProxy from "./proxies/arweave-proxy";
+import InfluxDBProxy from "./proxies/influxdb-proxy";
 import CacheProxy from "./proxies/cache-proxy";
 import SignatureVerifier from "./signature-verifier";
 import PriceNotFoundError from "./errors/price-not-found";
@@ -32,11 +33,13 @@ export default class RedstoneApi {
   private version: string;
   private verifySignature: boolean;
   private arweaveProxy: ArweaveProxy;
+  private influxDBProxy: InfluxDBProxy;
   private cacheProxy: CacheProxy;
   private signatureVerifier: SignatureVerifier;
 
   constructor(redstoneConfig: RedstoneApiConfig = {}) {
     this.arweaveProxy = new ArweaveProxy();
+    this.influxDBProxy = new InfluxDBProxy();
     this.cacheProxy = new CacheProxy(
       _.defaultTo(redstoneConfig.cacheApiUrl, config.cacheApiUrl),
     );
