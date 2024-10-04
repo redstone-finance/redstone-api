@@ -37,6 +37,7 @@ interface InfluxParams {
   type: string;
   version: string;
   providerAddress: string;
+  symbols: string[];
 }
 
 export default class InfluxDBProxy {
@@ -70,12 +71,7 @@ interface InfluxAuthParams extends InfluxConnectionInfo {
 }
 
 export interface IInfluxService {
-  getPriceFromInfluxDB(args: {
-    symbol: string;
-    provider: string;
-    version: string;
-    timestamp?: number;
-  }): Promise<Price | null>;
+  findPrices(args: InfluxParams): Promise<Price[] | undefined>;
 }
 
 export class InfluxService implements IInfluxService {
@@ -118,25 +114,29 @@ export class InfluxService implements IInfluxService {
       return originalSend(path, body, options, callbacks);
     };
   }
+
   async findPrices(
     args: InfluxParams
   ): Promise<Price[] | undefined> {
-    const { type, version, providerAddress } = args;
+    const { type, version, providerAddress, symbols } = args;
 
     const queryApi = this.influx.getQueryApi(this.authParams.org);
 
     const measurement = type;
+
+    const symbolsList = symbols.map(symbol => `"${symbol}"`).join(', ');
     const query = `
       from(bucket: "${this.authParams.bucket}")
-        |> range(start: -24h)
+        |> range(start: -1d)
         |> filter(fn: (r) => r["_measurement"] == "${measurement}")
         |> filter(fn: (r) => r["version"] == "${version}")
         |> filter(fn: (r) => r["provider"] == "${providerAddress}")
+        |> filter(fn: (r) => contains(value: r["symbol"], set: [${symbolsList}]))
+        |> group(columns: ["symbol"])
         |> sort(columns: ["_time"], desc: true)
         |> limit(n:1)
-        |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+        |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
     `;
-      // TODO: how to pass better time range?
 
     return new Promise((resolve, reject) => {
       const prices: Price[] = [];
@@ -156,7 +156,6 @@ export class InfluxService implements IInfluxService {
             evmSignature: o.evmSignature,
             liteEvmSignature: o.liteEvmSignature,
           };
-
           prices.push(price);
         },
         error(error: Error) {
