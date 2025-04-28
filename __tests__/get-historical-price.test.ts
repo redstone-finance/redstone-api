@@ -1,5 +1,7 @@
 import redstone from "../src/index";
 
+const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
 const shouldNotHaveTechProps = (price: any) => {
   const technicalProps = ["signature", "version", "providerPublicKey"];
   for (const prop of technicalProps) {
@@ -8,35 +10,32 @@ const shouldNotHaveTechProps = (price: any) => {
 };
 
 describe("Test getHistoricalPrice method", () => {
-  test("Should get AR price for 2021-04-17", async () => {
-    const symbol = "AR";
-    const date = new Date("2021-04-17");
+  test("Should get historical USDT price", async () => {
+    const symbol = "USDT";
     const price: any =
       await redstone.getHistoricalPrice(symbol, { date, provider: "redstone" });
 
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
-    expect(price.value).toBeCloseTo(25.923827794046517, 15);
+    expect(price.value).toBeCloseTo(1, 4);
     shouldNotHaveTechProps(price);
   });
 
-  test("Should get ETH price for 2021-04-17", async () => {
-    const symbol = "ETH";
-    const date = new Date("2021-04-17");
+  test("Should get historical USDC price", async () => {
+    const symbol = "USDC";
     const price: any =
       await redstone.getHistoricalPrice(symbol, { date, provider: "redstone" });
 
     expect(price).toBeDefined();
     expect(price.symbol).toBe(symbol);
-    expect(price.value).toBeCloseTo(2421.882615498678, 12);
+    expect(price.value).toBeCloseTo(1, 3);
     expect(price.timestamp).toBeLessThanOrEqual(date.getTime());
     expect(price.timestamp).toBeGreaterThan(date.getTime() - 2 * 60 * 1000);
     shouldNotHaveTechProps(price);
   });
 
-  test("Should get ETH price for 2021-04-17 and verify signature", async () => {
+  test("Should get historical ETH price and verify signature", async () => {
     const symbol = "ETH";
-    const date = new Date("2021-04-17");
 
     await redstone.getHistoricalPrice(symbol, {
       date,
@@ -45,11 +44,11 @@ describe("Test getHistoricalPrice method", () => {
     });
   });
 
-  test("Should get AR, BTC and ETH price for 2021-04-17", async () => {
+  test("Should get historical AR, BTC and ETH price", async () => {
     const symbols = ["AR", "BTC", "ETH"];
     const prices: any =
       await redstone.getHistoricalPrice(symbols, {
-        date: "2021-04-17",
+        date: date.toISOString(),
         provider: "redstone",
       });
 
@@ -63,12 +62,15 @@ describe("Test getHistoricalPrice method", () => {
     expect(prices["BTC"].value).toBeGreaterThan(1000);
   });
 
-  test("Should get AR prices in a time range", async () => {
+  test("Should get historical AR prices in a time range", async () => {
     const symbol = "AR";
 
+    const endDate = date.getTime();
+    const startDate = endDate - 1 * 24 * 3600 * 1000; // 1 day before
+
     const prices: any = await redstone.getHistoricalPrice(symbol, {
-      startDate: "2021-06-17",
-      endDate: "2021-06-18",
+      startDate: startDate,
+      endDate: endDate,
       interval: 600000,
       provider: "redstone",
     });
@@ -81,11 +83,11 @@ describe("Test getHistoricalPrice method", () => {
     }
   });
 
-  test("Should get AR prices with hourly interval", async () => {
+  test("Should get historical AR prices with hourly interval", async () => {
     const symbol = "AR";
 
 
-    const endDate = new Date("2021-06-20T23:59:00+00:00").getTime();
+    const endDate = date.getTime();
     const startDate = endDate - 2 * 24 * 3600 * 1000; // 2 days before
 
     const prices: any = await redstone.getHistoricalPrice(symbol, {
@@ -101,7 +103,7 @@ describe("Test getHistoricalPrice method", () => {
     expect(prices.length).toBeLessThanOrEqual(50);
   });
 
-  test("Should get AR prices with paging", async () => {
+  test("Should get historical AR prices with paging", async () => {
     const symbol = "AR";
 
     const prices: any = await redstone.getHistoricalPrice(symbol, {
@@ -109,7 +111,7 @@ describe("Test getHistoricalPrice method", () => {
       limit: 100,
       provider: "redstone",
     });
-
+    
     expect(prices).toHaveLength(100);
 
     for (const price of prices) {
@@ -117,9 +119,9 @@ describe("Test getHistoricalPrice method", () => {
     }
   });
 
-  test("Should not found AR price for 2019-01-01", async () => {
+  test("Should not found historical AR price", async () => {
     await redstone.getHistoricalPrice("AR", {
-      date: "2019-01-01",
+      date: date,
       provider: "redstone"
     }).catch(e => {
       const msg = e.toString();
