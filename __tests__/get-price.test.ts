@@ -79,6 +79,15 @@ describe("Test getPrice method", () => {
     }
   });
 
+  test("Should get prices for USDC, FRAX, SWETH and selected provider", async () => {
+    const symbols = ["USDC", "FRAX", "SWETH"];
+    const prices = await redstone.getPrice(symbols, { provider: "redstone-arbitrum-prod" });
+
+    for (const symbol of symbols) {
+      expect(prices[symbol]).toBeDefined();
+    }
+  });
+
   test("Should get prices for AR, ETH, BNB, BTC and verify signature", async () => {
     const symbols = ["AR", "ETH", "BNB", "BTC"];
     const prices: any = await redstone.getPrice(symbols, {

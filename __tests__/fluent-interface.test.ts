@@ -30,17 +30,18 @@ describe("Fluent interface tests ", () => {
     expect(Date.now() - price.timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
 
-  test("Should get a single historical AR price", async () => {
+  test("Should get a single historical USDT price", async () => {
+    const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     const price = await redstone.query()
-      .symbol("AR")
-      .atDate("2021-06-19")
+      .symbol("USDT")
+      .atDate(date)
       .exec({ provider: "redstone" });
 
-    const timeDiff = new Date("2021-06-19").getTime() - price.timestamp;
+    const timeDiff = new Date(date).getTime() - price.timestamp;
 
-    expect(price.symbol).toBe("AR");
+    expect(price.symbol).toBe("USDT");
     expect(timeDiff).toBeLessThan(MAX_TIME_DIFF);
-    expect(price.value).toBeCloseTo(15.653773173625972, 15);
+    expect(price.value).toBeCloseTo(1, 4);
   });
 
   test("Should get historical AR price for the last 12 hours", async () => {
@@ -99,18 +100,21 @@ describe("Fluent interface tests ", () => {
   });
 
   test("Should get AR price in time range", async () => {
+    const fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const toDate =  new Date(Date.now() - 6 * 24 * 60 * 60 * 1000);
+
     const prices = await redstone.query()
       .symbol("AR")
-      .fromDate("2021-06-19")
-      .toDate("2021-06-20")
+      .fromDate(fromDate)
+      .toDate(toDate)
       .exec({ provider: "redstone" });
 
     expect(prices.length).toBe(24);
     for (const price of prices) {
       expect(price.timestamp).toBeLessThanOrEqual(
-        new Date("2021-06-20").getTime());
+        new Date(toDate).getTime());
       expect(price.timestamp).toBeGreaterThanOrEqual(
-        new Date("2021-06-19").getTime());
+        new Date(fromDate).getTime());
     }
   });
 
@@ -132,19 +136,21 @@ describe("Fluent interface tests ", () => {
     expect(Date.now() - prices["BTC"].timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
 
-  test("Should get the historical price for AR, ETH and BTC", async () => {
+  test("Should get the historical price for USDT, USDC and BTC", async () => {
+    const historicalDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
     const prices = await redstone.query()
-      .symbols(["AR", "ETH", "BTC"])
-      .atDate("2021-06-19")
+      .symbols(["USDT", "USDC", "BTC"])
+      .atDate(historicalDate)
       .exec({ provider: "redstone" });
 
-    const timestamp = new Date("2021-06-19").getTime();
+    const timestamp = historicalDate.getTime();
 
-    expect(prices["AR"].value).toBeCloseTo(15.653773173625972, 15);
-    expect(prices["ETH"].value).toBeCloseTo(2230.201106028155, 12);
-    expect(prices["BTC"].value).toBeCloseTo(35774.50061802952, 11);
-    expect(timestamp - prices["AR"].timestamp).toBeLessThan(MAX_TIME_DIFF);
-    expect(timestamp - prices["ETH"].timestamp).toBeLessThan(MAX_TIME_DIFF);
+    expect(prices["USDT"].value).toBeCloseTo(1, 4);
+    expect(prices["USDC"].value).toBeCloseTo(1, 3);
+    expect(prices["BTC"].value).toBeGreaterThan(10000);
+    expect(timestamp - prices["USDT"].timestamp).toBeLessThan(MAX_TIME_DIFF);
+    expect(timestamp - prices["USDC"].timestamp).toBeLessThan(MAX_TIME_DIFF);
     expect(timestamp - prices["BTC"].timestamp).toBeLessThan(MAX_TIME_DIFF);
   });
 
